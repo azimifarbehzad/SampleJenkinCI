@@ -11,7 +11,7 @@ stage ('Checkout') {
 }
 stage ('Restore PACKAGES') {     
          steps {
-             bat "dotnet restore --configfile NuGet.Config"
+             sh(script: "dotnet restore --configfile NuGet.Config")
           }
         }
 stage('Clean') {

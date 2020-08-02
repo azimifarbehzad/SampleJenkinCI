@@ -1,34 +1,13 @@
-pipeline {
-agent any
-environment {
-dotnet = 'path\\to\\dotnet.exe'
-}
-stages {
-stage ('Checkout') {
-            steps {
-                 git credentialsId: 'azimifarbehzad', url: 'https://github.com/azimifarbehzad/SampleJenkinCI',branch: 'master'
-            }
-}
-stage ('Restore PACKAGES') {     
-        
-             sh(script: "dotnet restore --configfile NuGet.Config")
-          
-        }
-stage('Clean') {
-     sh(script: "dotnet clean")
-      
-    }
-stage('Build') {
-      sh(script: "dotnet build --configuration Release")
-   
-   }
-stage('Pack') {
-      sh(script: "dotnet pack --no-build --output nupkgs")
-    
-   }
-stage('Publish') {
-      sh(script: "dotnet nuget push **\\nupkgs\\*.nupkg -k yourApiKey -s http://myserver/artifactory/api/nuget/nuget-internal-stable/com/sample")
-    
-   }
- }
-}
+
+node {  
+    stage('Checkout git repo') {  
+ git credentialsId: 'azimifarbehzad', url: 'https://github.com/azimifarbehzad/SampleJenkinCI',branch: 'master'
+            }  
+    stage('build and publish') {  
+        sh(script: "dotnet publish JenkinsIntegration -c Release ", returnStdout: true)  
+    }  
+    stage('deploy') {  
+        azureWebAppPublish azureCredentialsId: params.azure_cred_id,  
+            resourceGroup: params.res_group, appName: params.JenkinsIntegration, sourceDirectory: "JenkinsIntegration/JenkinsIntegration/bin/Release/netcoreapp2.1/publish/"  
+        }  
+} 

@@ -1,7 +1,7 @@
 pipeline {
 agent any
 environment {
-dotnet = 'usr\\share\\dotnet.exe'
+dotnet = 'usr\\share\\dotnet\\dotnet.exe'
 }
 stages {
 stage ('Checkout') {

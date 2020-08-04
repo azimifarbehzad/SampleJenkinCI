@@ -24,15 +24,15 @@ pipeline {
                     bat  'dotnet build --configuration Release'
                }
           }
-          stage('Pack') {
-               steps {
-                    bat  'dotnet pack --no-build --output nupkgs'
-               }
-          }
-          stage('Publish') {
-               steps {
-                    bat  "dotnet nuget push **\\nupkgs\\*.nupkg -k yourApiKey -s http://myserver/artifactory/api/nuget/nuget-internal-stable/com/sample"
-               }
-          }
+          // stage('Pack') {
+          //      steps {
+          //           bat  'dotnet pack --no-build --output nupkgs'
+          //      }
+          // }
+          // stage('Publish') {
+          //      steps {
+          //           bat  "dotnet nuget push **\\nupkgs\\*.nupkg -k yourApiKey -s http://myserver/artifactory/api/nuget/nuget-internal-stable/com/sample"
+          //      }
+          // }
      }
 }

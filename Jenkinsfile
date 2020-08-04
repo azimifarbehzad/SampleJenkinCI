@@ -24,6 +24,11 @@ pipeline {
                     bat  'dotnet build --configuration Release'
                }
           }
+           stage('Test') {
+               steps {
+                    bat  'dotnet test'
+               }
+          }
           // stage('Pack') {
           //      steps {
           //           bat  'dotnet pack --no-build --output nupkgs'
